@@ -3,6 +3,7 @@ package com.microgreens.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name="cart_item")
 public class CartItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
