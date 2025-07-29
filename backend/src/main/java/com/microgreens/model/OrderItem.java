@@ -5,6 +5,14 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="order_items")
 public class OrderItem {
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id=" + id +
+                ", product=" + (product != null ? product.getName() : null) +
+                ", quantity=" + quantity +
+                '}';
+    }
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

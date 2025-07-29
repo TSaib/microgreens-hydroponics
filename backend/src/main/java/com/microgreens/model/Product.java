@@ -5,8 +5,9 @@ import java.math.BigDecimal;
 
 @Entity
 public class Product {
+    
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long product_id;
 
     private String name;
     private String description;
@@ -15,11 +16,11 @@ public class Product {
     private String category; // "microgreens" or "hydroponics"
 
     // Getters and setters...
-    public Long getId() {
-        return id;
+    public Long getProductId() {
+        return product_id;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public void setProductId(Long product_id) {
+        this.product_id = product_id;
     }
     public String getName() {
         return name;
@@ -50,6 +51,15 @@ public class Product {
     }
     public void setCategory(String category) {
         this.category = category;
+    }
+    
+    @Override
+    public String toString() {
+        return "Product{" +
+                "product_id=" + product_id +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                '}';
     }
 
 

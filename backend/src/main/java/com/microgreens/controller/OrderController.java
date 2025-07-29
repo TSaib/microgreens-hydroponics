@@ -41,7 +41,7 @@ public class OrderController {
         order.setItems(orderItems);
         orderRepo.save(order);
 
-        return Map.of("success", true, "orderId", order.getId());
+        return Map.of("success", true, "orderId", order.getOrderId());
     }
 
     @GetMapping
