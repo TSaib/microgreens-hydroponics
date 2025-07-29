@@ -2,7 +2,6 @@ package com.microgreens.controller;
 
 import com.microgreens.model.User;
 import com.microgreens.repository.UserRepository;
-import com.microgreens.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +15,6 @@ import java.util.Optional;
 public class AuthController {
     @Autowired
     private UserRepository userRepo;
-    @Autowired
-    private JwtUtil jwtUtil;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -33,8 +30,7 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(password));
         user.setRole("CUSTOMER");
         userRepo.save(user);
-        String token = jwtUtil.generateToken(email, user.getRole());
-        return Map.of("success", true, "token", token, "role", user.getRole());
+        return Map.of("success", true, "role", user.getRole());
     }
 
     @PostMapping("/login")
@@ -44,7 +40,6 @@ public class AuthController {
             return Map.of("success", false, "message", "Invalid credentials");
         }
         User user = userOpt.get();
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
-        return Map.of("success", true, "token", token, "role", user.getRole());
+        return Map.of("success", true, "role", user.getRole());
     }
 }
