@@ -20,36 +20,35 @@ public class OrderController {
     private PasswordEncoder passwordEncoder;
  
 
-    @PostMapping
-    public Map<String, Object> placeOrder(@RequestBody Map<String,Object> req) {
-        // For general users, do not require authentication
-        List<Map<String,Object>> itemsReq = (List<Map<String,Object>>) req.get("items");
-        List<OrderItem> orderItems = new ArrayList<>();
-        java.math.BigDecimal total = java.math.BigDecimal.ZERO;
-        for (Map<String,Object> item : itemsReq) {
-            Long productId = ((Number)item.get("productId")).longValue();
-            int qty = (int)item.get("quantity");
-            Product p = productRepo.findById(productId).orElseThrow();
-            OrderItem oi = new OrderItem();
-            oi.setProduct(p);
-            oi.setQuantity(qty);
-            orderItems.add(oi);
-            total = total.add(p.getPrice().multiply(java.math.BigDecimal.valueOf(qty)));
-        }
-        Order order = new Order();
-        // No user association for unauthenticated orders
-        order.setOrderTime(LocalDateTime.now());
-        order.setStatus("PLACED");
-        order.setItems(orderItems);
-        order.setTotal(total);
-        // Set the parent order reference in each OrderItem
-        for (OrderItem oi : orderItems) {
-            oi.setOrder(order);
-        }
-        orderRepo.save(order);
-
-        return Map.of("success", true, "orderId", order.getOrderId(), "total", total);
-    }
+    // @PostMapping
+    // public Map<String, Object> placeOrder(@RequestBody Map<String,Object> req) {
+    //     // For general users, do not require authentication
+    //     List<Map<String,Object>> itemsReq = (List<Map<String,Object>>) req.get("items");
+    //     List<OrderItem> orderItems = new ArrayList<>();
+    //     java.math.BigDecimal total = java.math.BigDecimal.ZERO;
+    //     for (Map<String,Object> item : itemsReq) {
+    //         Long productId = ((Number)item.get("productId")).longValue();
+    //         int qty = (int)item.get("quantity");
+    //         Product p = productRepo.findById(productId).orElseThrow();
+    //         OrderItem oi = new OrderItem();
+    //         oi.setProduct(p);
+    //         oi.setQuantity(qty);
+    //         orderItems.add(oi);
+    //         total = total.add(p.getPrice().multiply(java.math.BigDecimal.valueOf(qty)));
+    //     }
+    //     Order order = new Order();
+    //     // No user association for unauthenticated orders
+    //     order.setOrderTime(LocalDateTime.now());
+    //     order.setStatus("PLACED");
+    //     order.setItems(orderItems);
+    //     order.setTotal(total);
+    //     // Set the parent order reference in each OrderItem
+    //     for (OrderItem oi : orderItems) {
+    //         oi.setOrder(order);
+    //     }
+    //     orderRepo.save(order);
+    //     return Map.of("success", true, "orderId", order.getOrderId(), "total", total);
+    // }
 
     @GetMapping
     public List<Order> getOrders(@RequestParam String email, @RequestParam String password) {

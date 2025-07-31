@@ -14,6 +14,10 @@ import java.util.List;
 @RequestMapping("/api/cart")
 @CrossOrigin(origins = "*")
 public class CartController {
+    @Autowired
+    private com.microgreens.repository.OrderRepository orderRepo;
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
     @Autowired private CartItemRepository cartRepo;
     @Autowired private UserRepository userRepo;
     @Autowired private ProductRepository productRepo;
@@ -72,4 +76,33 @@ public class CartController {
         cartRepo.deleteAll(items);
         return "Cart cleared";
     }
+
+    @PostMapping("/checkout")
+    public Object checkout(@RequestParam String email) {
+        User user = userRepo.findByEmail(email).orElseThrow();
+        List<CartItem> cartItems = cartRepo.findByUser(user);
+        if (cartItems.isEmpty()) return "Cart is empty";
+        java.math.BigDecimal total = java.math.BigDecimal.ZERO;
+        List<com.microgreens.model.OrderItem> orderItems = new java.util.ArrayList<>();
+        for (CartItem ci : cartItems) {
+            com.microgreens.model.OrderItem oi = new com.microgreens.model.OrderItem();
+            oi.setProduct(ci.getProduct());
+            oi.setQuantity(ci.getQuantity());
+            orderItems.add(oi);
+            total = total.add(ci.getProduct().getPrice().multiply(java.math.BigDecimal.valueOf(ci.getQuantity())));
+        }
+        com.microgreens.model.Order order = new com.microgreens.model.Order();
+        order.setUser(user);
+        order.setOrderTime(java.time.LocalDateTime.now());
+        order.setStatus("PLACED");
+        order.setItems(orderItems);
+        order.setTotal(total);
+        for (com.microgreens.model.OrderItem oi : orderItems) {
+            oi.setOrder(order);
+        }
+        orderRepo.save(order);
+        cartRepo.deleteAll(cartItems);
+        return java.util.Map.of("success", true, "orderId", order.getOrderId(), "total Rs", total);
+    }
+
 }
