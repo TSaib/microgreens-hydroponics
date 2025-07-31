@@ -40,8 +40,9 @@ public class AdminController {
     }
 
     @DeleteMapping("/products/{id}")
-    public void deleteProduct(@PathVariable Long id) {
+    public String deleteProduct(@PathVariable Long id) {
         productRepo.deleteById(id);
+        return "Product with id: " + id + " deleted successfully";
     }
 
     // --- Orders management ---
@@ -54,7 +55,8 @@ public class AdminController {
     @PutMapping("/orders/{id}/status")
     public Order updateOrderStatus(@PathVariable Long id, @RequestBody String status) {
         Order order = orderRepo.findById(id).orElseThrow();
-        order.setStatus(status.replace("\"", "")); // handle JSON string
+        //order.setStatus(status.replace("\"", "")); // handle JSON string
+        order.setStatus(status);
         return orderRepo.save(order);
     }
 }

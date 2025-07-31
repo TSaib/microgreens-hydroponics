@@ -21,6 +21,11 @@ public class OrderItem {
 
     private int quantity;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    @com.fasterxml.jackson.annotation.JsonBackReference
+    private Order order;
+
     // Getters and setters...
     public Long getId() {
         return id;
@@ -39,5 +44,11 @@ public class OrderItem {
     }
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+    public Order getOrder() {
+        return order;
+    }
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

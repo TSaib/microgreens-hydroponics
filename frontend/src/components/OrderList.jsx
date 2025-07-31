@@ -8,9 +8,16 @@ export default function OrderList() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    axios.get(`${API_URL}/orders`, {
-      headers: { Authorization: `Bearer ${user?.token}` }
-    }).then(res => setOrders(res.data));
+    if (user && user.email && user.password) {
+      axios.get(`${API_URL}/orders`, {
+        auth: {
+          username: user.email,
+          password: user.password
+        }
+      }).then(res => setOrders(res.data));
+    } else {
+      axios.get(`${API_URL}/orders`).then(res => setOrders(res.data));
+    }
   }, [user]);
 
   return (

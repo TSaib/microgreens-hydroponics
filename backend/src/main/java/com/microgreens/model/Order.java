@@ -19,7 +19,11 @@ public class Order {
     private String status; // "PLACED", "PROCESSING", "DELIVERED", etc.
 
     @OneToMany(cascade = CascadeType.ALL)
+    @com.fasterxml.jackson.annotation.JsonManagedReference
     private List<OrderItem> items;
+
+    @Column(name = "total")
+    private java.math.BigDecimal total;
 
     // Getters and setters...
     public Long getOrderId() {
@@ -52,6 +56,12 @@ public class Order {
     public void setItems(List<OrderItem> items) {
         this.items = items;
     }
+    public java.math.BigDecimal getTotal() {
+        return total;
+    }
+    public void setTotal(java.math.BigDecimal total) {
+        this.total = total;
+    }
     @Override
     public String toString() {
         return "Order{" +
@@ -59,6 +69,7 @@ public class Order {
                 ", user=" + (user != null ? user.getEmail() : null) +
                 ", orderTime=" + orderTime +
                 ", status='" + status + '\'' +
+                ", total=" + (total != null ? total.toPlainString() : null) +
                 ", items=" + items +
                 '}';
     }
