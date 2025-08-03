@@ -78,7 +78,7 @@ public class CartController {
     }
 
     @PostMapping("/checkout")
-    public Object checkout(@RequestParam String email) {
+    public Object checkout(@RequestParam String email, @RequestParam String address) {
         User user = userRepo.findByEmail(email).orElseThrow();
         List<CartItem> cartItems = cartRepo.findByUser(user);
         if (cartItems.isEmpty()) return "Cart is empty";
@@ -97,6 +97,7 @@ public class CartController {
         order.setStatus("PLACED");
         order.setItems(orderItems);
         order.setTotal(total);
+        order.setAddress(address);
         for (com.microgreens.model.OrderItem oi : orderItems) {
             oi.setOrder(order);
         }

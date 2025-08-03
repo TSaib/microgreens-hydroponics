@@ -2,9 +2,21 @@ package com.microgreens.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Product {
+    @ElementCollection
+    @CollectionTable(name = "product_nutrients", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "nutrients")
+    private List<String> nutrients;
+
+    public List<String> getNutrients() {
+        return nutrients;
+    }
+    public void setNutrients(List<String> nutrients) {
+        this.nutrients = nutrients;
+    }
     
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long product_id;

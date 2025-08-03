@@ -16,7 +16,16 @@ public class User {
     private String password;
     private String role; // "ADMIN" or "CUSTOMER"
 
+    private String fullName;
+
     // Getters and setters...
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     public Long getUserId() {
         return user_id;
     }
@@ -46,6 +55,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "user_id=" + user_id +
+                ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 '}';

@@ -25,7 +25,16 @@ public class Order {
     @Column(name = "total")
     private java.math.BigDecimal total;
 
+    @Column(name = "address")
+    private String address;
+
     // Getters and setters...
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
     public Long getOrderId() {
         return order_id;
     }
