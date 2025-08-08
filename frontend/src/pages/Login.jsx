@@ -16,13 +16,15 @@ export default function Login() {
     try {
       const res = await axios.post(`${API_URL}/auth/login`, { email, password });
       if (res.data.success) {
-        login(res.data.token, res.data.role);
+        //login(res.data.token, res.data.role);
+        login(res.data.role);
         navigate("/");
       } else {
         setErr(res.data.message);
       }
-    } catch {
-      setErr("Server error");
+    } catch (error) {
+      setErr("An error occurred");
+      console.error("Login error:", error);
     }
   };
 
