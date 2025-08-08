@@ -23,8 +23,8 @@ export default function Login() {
         setErr(res.data.message);
       }
     } catch (error) {
-      setErr("An error occurred");
-      console.error("Login error:", error);
+      console.error('Login API error:', error);
+      setErr("Server error: " + (error?.message || 'Unknown error'));
     }
   };
 

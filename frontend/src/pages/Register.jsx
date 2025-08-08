@@ -16,7 +16,7 @@ export default function Register() {
     try {
       const res = await axios.post(`${API_URL}/auth/register`, { email, password });
       if (res.data.success) {
-        login(res.data.token, res.data.role);
+        login(res.data.role);
         navigate("/");
       } else {
         setErr(res.data.message);
