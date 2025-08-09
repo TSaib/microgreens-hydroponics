@@ -174,7 +174,7 @@ function App() {
                     <div style={{ fontWeight: 700, color: '#188040', fontSize: '1.1rem', marginBottom: 4 }}>{user.email}</div>
                     <div style={{ color: '#23b758', fontWeight: 600, fontSize: '1rem', marginBottom: 8 }}>{user.role}</div>
                     <div style={{ color: '#222', fontSize: '0.98rem', marginBottom: 6 }}>Cart Items: <b>{cartCount}</b></div>
-                    <div style={{ color: '#222', fontSize: '0.98rem', marginBottom: 10 }}>Orders: <b>{orderCount}</b></div>
+                    {/* <div style={{ color: '#222', fontSize: '0.98rem', marginBottom: 10 }}>Orders: <b>{orderCount}</b></div> */}
                     <a href="/cart" style={{ display: 'block', color: '#23b758', fontWeight: 600, marginBottom: 8, textDecoration: 'none' }}>View Cart</a>
                     <a href="/orders" style={{ display: 'block', color: '#23b758', fontWeight: 600, marginBottom: 8, textDecoration: 'none' }}>My Orders</a>
                     <button 

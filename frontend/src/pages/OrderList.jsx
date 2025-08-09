@@ -59,20 +59,27 @@ export default function OrderList() {
       {orders && Array.isArray(orders) && orders.length > 0 && (
         <div style={{ marginTop: 32 }}>
           {orders.map((order, idx) => (
-            <div key={order.id || idx} style={{ background: '#fff', borderRadius: 12, boxShadow: '0 2px 8px #0001', padding: 18, marginBottom: 18 }}>
-              <div style={{ fontWeight: 700, color: '#188040', fontSize: '1.1rem' }}>Order #{order.id}</div>
-              <div style={{ color: '#666', fontSize: '0.98rem', margin: '4px 0' }}>Date: {order.date || order.createdAt || 'N/A'}</div>
-              <div style={{ color: '#23b758', fontWeight: 600, fontSize: '1rem' }}>Total: ₹{order.total || order.amount || 0}</div>
-              <div style={{ color: '#222', fontSize: '0.98rem', marginTop: 6 }}>
-                Items:
-                <ul style={{ margin: 0, paddingLeft: 18 }}>
-                  {(order.items || order.orderItems || []).map((item, i) => (
-                    <li key={item.id || i}>
-                      {item.productName || item.name} x {item.quantity} - ₹{item.price}
-                    </li>
-                  ))}
-                </ul>
+            <div key={order.orderId || idx} style={{ background: '#fff', borderRadius: 16, boxShadow: '0 4px 16px #0002', padding: 24, marginBottom: 32 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <div style={{ fontWeight: 700, color: '#188040', fontSize: '1.2rem' }}>Order #{order.orderId}</div>
+                <span style={{ background: '#eafff0', color: '#23b758', fontWeight: 600, borderRadius: 8, padding: '4px 14px', fontSize: '0.98rem' }}>{order.status}</span>
               </div>
+              <div style={{ color: '#666', fontSize: '1rem', marginBottom: 6 }}>Date: {order.orderTime ? new Date(order.orderTime).toLocaleString() : 'N/A'}</div>
+              <div style={{ color: '#23b758', fontWeight: 700, fontSize: '1.1rem', marginBottom: 10 }}>Total: ₹{order.total || 0}</div>
+              <div style={{ color: '#222', fontSize: '1.05rem', marginTop: 8, marginBottom: 8, fontWeight: 600 }}>Items:</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                {(order.items || []).map((item, i) => (
+                  <div key={item.id || i} style={{ display: 'flex', alignItems: 'center', background: '#f8fff8', borderRadius: 12, boxShadow: '0 2px 8px #23b75811', padding: 12, gap: 18 }}>
+                    <img src={item.product?.imageUrl || 'https://via.placeholder.com/80x60?text=No+Image'} alt={item.product?.name} style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 8, background: '#f4f4f4', marginRight: 12 }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 700, color: '#188040', fontSize: '1.05rem' }}>{item.product?.name}</div>
+                      <div style={{ color: '#666', fontSize: '0.97rem', margin: '2px 0 4px 0' }}>{item.product?.description}</div>
+                      <div style={{ color: '#23b758', fontWeight: 600, fontSize: '1rem' }}>₹{item.product?.price} <span style={{ color: '#888', fontWeight: 400, fontSize: '0.95rem' }}>x {item.quantity}</span></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ color: '#888', fontSize: '0.98rem', marginTop: 14 }}>Delivery Address: {order.address}</div>
             </div>
           ))}
         </div>
