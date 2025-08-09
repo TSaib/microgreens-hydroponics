@@ -162,6 +162,44 @@ export default function CartPage() {
           <div style={{ textAlign: 'right', marginTop: 32, fontSize: '1.3rem', fontWeight: 700, color: '#188040' }}>
             Total: ₹{total}
           </div>
+          <div style={{ textAlign: 'right', marginTop: 16 }}>
+            <button
+              onClick={async () => {
+                const address = prompt('Enter your delivery address:');
+                if (!address) return;
+                try {
+                  const params = new URLSearchParams({ email: user.email, address });
+                  await axios.post(
+                    `${API_URL}/cart/checkout?${params.toString()}`,
+                    {},
+                    { headers: getAuthHeaders() }
+                  );
+                  alert('Order placed successfully!');
+                  setCart([]);
+                  navigate('/orders');
+                } catch (err) {
+                  alert('Failed to place order.');
+                  console.error('Checkout error:', err);
+                }
+              }}
+              style={{
+                background: '#188040',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 8,
+                padding: '12px 36px',
+                fontWeight: 700,
+                fontSize: '1.1rem',
+                cursor: 'pointer',
+                marginTop: 12,
+                boxShadow: '0 2px 8px #0001',
+                transition: 'background 0.2s',
+              }}
+              disabled={cart.length === 0}
+            >
+              Checkout
+            </button>
+          </div>
         </>
       )}
     </div>

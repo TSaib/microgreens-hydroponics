@@ -7,6 +7,7 @@ import AdminAnalytics from './pages/AdminAnalytics';
 import AdminUsers from './pages/AdminUsers';
 import AdminPanel from './pages/AdminPanel';
 import AdminRoute from './components/AdminRoute';
+import OrderList from './pages/OrderList';
 import Products from './pages/Products';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -211,6 +212,7 @@ function App() {
         <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
         <Route path="/admin/analytics" element={<AdminRoute><AdminAnalytics /></AdminRoute>} />
         <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+        <Route path="/orders" element={<OrderList />} />
       </Routes>
     </>
   );
