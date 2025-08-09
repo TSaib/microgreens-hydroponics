@@ -39,7 +39,7 @@ html, body, #root {
   color: #fff !important;
   background: 
     linear-gradient(rgba(40,80,40,0.5), rgba(200,255,200,0.7)),
-    url('https://wallpaperaccess.com/full/3842218.png') center/cover no-repeat !important;
+    url('./assets/hero-microgreens.jpg') center/cover no-repeat !important;
 }
 
 /* Remove global button color override to allow category button styles to work */
