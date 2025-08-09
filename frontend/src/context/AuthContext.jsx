@@ -7,16 +7,22 @@ export function useAuth() {
 }
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem('user');
+    return stored ? JSON.parse(stored) : null;
+  });
 
-  // login function sets user info (could be expanded to include token, etc.)
-  const login = (role) => {
-    setUser({ role });
+  // login function sets user info (now includes email and role)
+  const login = (email, role) => {
+    const userObj = { email, role };
+    setUser(userObj);
+    localStorage.setItem('user', JSON.stringify(userObj));
   };
 
   // Optionally, add a logout function
   const logout = () => {
     setUser(null);
+    localStorage.removeItem('user');
   };
 
   return (

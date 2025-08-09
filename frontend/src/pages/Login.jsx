@@ -2,23 +2,21 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const { login, user } = useContext(AuthContext);
 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
       const res = await axios.post(`${API_URL}/auth/login`, { email, password });
       if (res.data.success) {
-        //login(res.data.token, res.data.role);
-        login(res.data.role);
-        navigate("/");
+        login(email, res.data.role);
+        // Navigation will be handled by <Navigate />
       } else {
         setErr(res.data.message);
       }
@@ -27,6 +25,8 @@ export default function Login() {
       setErr("Server error: " + (error?.message || 'Unknown error'));
     }
   };
+
+  if (user) return <Navigate to="/" replace />;
 
   return (
     <form onSubmit={handleSubmit}>

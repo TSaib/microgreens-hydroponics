@@ -64,7 +64,7 @@ export default function Products({ addToCart }) {
               </div>
             )}
             <div className="price" style={{ color: '#188040', fontWeight: 700, fontSize: '1.2rem', margin: '1rem 0 0.5rem 0' }}>₹{p.price} <span style={{ color: '#888', fontWeight: 400, fontSize: '0.95rem' }}>{p.unit}</span></div>
-            <button onClick={() => addToCart(p)} style={{ background: '#23b758', color: '#fff', border: 'none', padding: '0.7rem 2rem', borderRadius: '2rem', cursor: 'pointer', fontWeight: 700, fontSize: '1rem', marginTop: 'auto', boxShadow: '0 2px 8px #0001', transition: 'background 0.2s' }}>Add to Cart</button>
+            <button onClick={() => { console.log(p); addToCart(p); }} style={{ background: '#23b758', color: '#fff', border: 'none', padding: '0.7rem 2rem', borderRadius: '2rem', cursor: 'pointer', fontWeight: 700, fontSize: '1rem', marginTop: 'auto', boxShadow: '0 2px 8px #0001', transition: 'background 0.2s' }}>Add to Cart</button>
           </div>
         ))}
       </div>
