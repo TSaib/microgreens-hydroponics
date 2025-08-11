@@ -10,6 +10,7 @@ export default function CartPage() {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [address, setAddress] = useState("");
 
   // Helper: get auth headers if token exists
   const getAuthHeaders = () =>
@@ -163,10 +164,27 @@ export default function CartPage() {
             Total: ₹{total}
           </div>
           <div style={{ textAlign: 'right', marginTop: 16 }}>
+            <input
+              type="text"
+              placeholder="Enter your delivery address to proceed for checkout"
+              value={address}
+              onChange={e => setAddress(e.target.value)}
+              style={{
+                padding: '10px 16px',
+                borderRadius: 8,
+                border: '1px solid #ccc',
+                fontSize: '1rem',
+                width: '60%',
+                marginRight: 12,
+                marginBottom: 12,
+              }}
+            />
             <button
               onClick={async () => {
-                const address = prompt('Enter your delivery address:');
-                if (!address) return;
+                if (!address) {
+                  alert('Please enter your delivery address.');
+                  return;
+                }
                 try {
                   const params = new URLSearchParams({ email: user.email, address });
                   await axios.post(
@@ -176,6 +194,7 @@ export default function CartPage() {
                   );
                   alert('Order placed successfully!');
                   setCart([]);
+                  setAddress('');
                   navigate('/orders');
                 } catch (err) {
                   alert('Failed to place order.');
@@ -190,12 +209,13 @@ export default function CartPage() {
                 padding: '12px 36px',
                 fontWeight: 700,
                 fontSize: '1.1rem',
-                cursor: 'pointer',
+                cursor: cart.length === 0 || !address ? 'not-allowed' : 'pointer',
                 marginTop: 12,
                 boxShadow: '0 2px 8px #0001',
                 transition: 'background 0.2s',
+                opacity: cart.length === 0 || !address ? 0.5 : 1,
               }}
-              disabled={cart.length === 0}
+              disabled={cart.length === 0 || !address}
             >
               Checkout
             </button>

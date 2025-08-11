@@ -2,13 +2,14 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
 import { AuthContext } from "../context/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import '../index.css';
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
+  // Removed inline forgot/reset password state
   const { login, user } = useContext(AuthContext);
 
   const handleSubmit = async e => {
@@ -121,6 +122,10 @@ export default function Login() {
           marginBottom: 2,
           letterSpacing: 0.5
         }}>Login</button>
+        <div style={{ width: '100%', marginTop: 10, textAlign: 'right' }}>
+          <Link to="/forgot-password" style={{ color: '#188040', textDecoration: 'underline', fontSize: '0.98rem', marginRight: 8 }}>Forgot password?</Link>
+          <Link to="/reset-password" style={{ color: '#188040', textDecoration: 'underline', fontSize: '0.98rem' }}>Reset password</Link>
+        </div>
       </form>
     </div>
   );

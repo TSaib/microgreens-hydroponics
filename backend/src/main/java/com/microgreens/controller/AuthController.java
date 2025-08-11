@@ -64,11 +64,17 @@ public class AuthController {
         String newPassword = req.get("newPassword");
         Optional<User> userOpt = userRepo.findByEmail(email);
         if (userOpt.isEmpty()) {
+            System.out.println("[RESET PASSWORD] User not found for email: " + email);
             return Map.of("success", false, "message", "User not found");
         }
         User user = userOpt.get();
-        user.setPassword(passwordEncoder.encode(newPassword));
+        String oldHash = user.getPassword();
+        String newHash = passwordEncoder.encode(newPassword);
+        user.setPassword(newHash);
         userRepo.save(user);
-        return Map.of("success", true, "message", "Password reset successful");
+        System.out.println("[RESET PASSWORD] Password updated for email: " + email);
+        //System.out.println("[RESET PASSWORD] Old hash: " + oldHash);
+        //System.out.println("[RESET PASSWORD] New hash: " + newHash);
+        return Map.of("success", true, "message", "Password reset successful, Please login again");
     }
 }

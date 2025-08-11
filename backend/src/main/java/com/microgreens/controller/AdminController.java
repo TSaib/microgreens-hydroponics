@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -53,10 +54,11 @@ public class AdminController {
     }
 
     @PutMapping("/orders/{id}/status")
-    public Order updateOrderStatus(@PathVariable Long id, @RequestBody String status) {
+    public Order updateOrderStatus(@PathVariable Long id, @RequestBody Map<String, String> status) {
         Order order = orderRepo.findById(id).orElseThrow();
         //order.setStatus(status.replace("\"", "")); // handle JSON string
-        order.setStatus(status);
+        String statusValue = status.get("status");
+        order.setStatus(statusValue);
         return orderRepo.save(order);
     }
 }
