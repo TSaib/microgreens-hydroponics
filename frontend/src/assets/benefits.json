@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Rich in vitamins, minerals, and antioxidants",
+    "img": "https://cdn-icons-png.flaticon.com/512/2909/2909769.png",
+    "alt": "Vitamins"
+  },
+  {
+    "title": "Boost immunity and support heart health",
+    "img": "https://cdn-icons-png.flaticon.com/512/616/616494.png",
+    "alt": "Immunity"
+  },
+  {
+    "title": "Aid digestion and promote healthy skin",
+    "img": "https://cdn-icons-png.flaticon.com/512/1046/1046857.png",
+    "alt": "Digestion"
+  },
+  {
+    "title": "Intense flavor and vibrant color for meals",
+    "img": "https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
+    "alt": "Flavor"
+  },
+  {
+    "title": "Grown without pesticides or soil contaminants",
+    "img": "https://cdn-icons-png.flaticon.com/512/2909/2909767.png",
+    "alt": "No pesticides"
+  },
+  {
+    "title": "Uses less water and space than traditional farming",
+    "img": "https://cdn-icons-png.flaticon.com/512/728/728093.png",
+    "alt": "Water saving"
+  },
+  {
+    "title": "Faster growth and higher yields",
+    "img": "https://cdn-icons-png.flaticon.com/512/2917/2917995.png",
+    "alt": "Growth"
+  },
+  {
+    "title": "Consistent quality, year-round",
+    "img": "https://cdn-icons-png.flaticon.com/512/190/190411.png",
+    "alt": "Quality"
+  }
+]

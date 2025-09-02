@@ -26,6 +26,7 @@ public class AdminController {
 
     @PostMapping("/products")
     public Product addProduct(@RequestBody Product p) {
+        // containerQuantity will be set from request body if present
         return productRepo.save(p);
     }
 
@@ -37,6 +38,7 @@ public class AdminController {
         prod.setImageUrl(p.getImageUrl());
         prod.setPrice(p.getPrice());
         prod.setCategory(p.getCategory());
+        prod.setContainerQuantity(p.getContainerQuantity());
         return productRepo.save(prod);
     }
 

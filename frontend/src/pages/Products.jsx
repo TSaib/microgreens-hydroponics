@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../config';
 
 const categories = [
   { key: 'microgreens', label: 'Microgreens' },
-  { key: 'hydroponics', label: 'Hydroponics' }
+  { key: 'hydroponics', label: 'Hydroponics' },
+  { key: 'homefoods', label: 'Home Foods' }
 ];
 
 export default function Products({ addToCart }) {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const [cat, setCat] = useState('microgreens');
+  // Detect category from query param if present
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialCat = urlParams.get('category') || 'microgreens';
+  const [cat, setCat] = useState(initialCat);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
     setLoading(true);
     setError('');
-    axios.get(`${API_URL}/products?category=${cat}`)
+  axios.get(`${API_URL}/products?category=${cat}`)
       .then(res => {
         setProducts(res.data);
-        console.log(`[${cat}] products:`, res.data); 
+  console.log(`[${cat}] products:`, res.data); 
       })
       .catch(err => {
         console.error('Products API error:', err);
@@ -37,7 +43,10 @@ export default function Products({ addToCart }) {
           {categories.map(c =>
             <button
               key={c.key}
-              onClick={() => setCat(c.key)}
+              onClick={() => {
+                setCat(c.key);
+                navigate(`/products?category=${c.key}`);
+              }}
               className={`category-toggle-btn${cat === c.key ? ' selected' : ''}`}
             >
               {c.label}
@@ -48,7 +57,7 @@ export default function Products({ addToCart }) {
 
       {loading && <p style={{ textAlign: 'center', color: '#188040' }}>Loading products...</p>}
       {error && <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>}
-      {!loading && !error && products.length === 0 && <p style={{ textAlign: 'center', color: '#188040' }}>No products found for "{cat}".</p>}
+  {!loading && !error && products.length === 0 && <p style={{ textAlign: 'center', color: '#188040' }}>No products found for "{categories.find(c => c.key === cat)?.label || cat}".</p>}
 
       <div className="products-grid">
         {products.map(p => (
@@ -64,7 +73,9 @@ export default function Products({ addToCart }) {
               </div>
             )}
             <div className="price" style={{ color: '#188040', fontWeight: 700, fontSize: '1.2rem', margin: '1rem 0 0.2rem 0' }}>₹{p.price}</div>
-            <div style={{ color: '#888', fontWeight: 500, fontSize: '1rem', marginBottom: '0.5rem', textAlign: 'center' }}>per 100g container</div>
+            <div style={{ color: '#888', fontWeight: 500, fontSize: '1rem', marginBottom: '0.5rem', textAlign: 'center' }}>
+              {p.containerQuantity ? `per ${p.containerQuantity} container` : ''}
+            </div>
             <button onClick={() => { console.log(p); addToCart(p); }} style={{ background: '#23b758', color: '#fff', border: 'none', padding: '0.7rem 2rem', borderRadius: '2rem', cursor: 'pointer', fontWeight: 700, fontSize: '1rem', marginTop: 'auto', boxShadow: '0 2px 8px #0001', transition: 'background 0.2s' }}>Add to Cart</button>
           </div>
         ))}

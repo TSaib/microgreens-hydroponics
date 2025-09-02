@@ -129,8 +129,22 @@ function App() {
           </div>
         </div>
       )}
-      <nav className="navbar">
-        <span className="brand">S&amp;T's Hydroponics and Microgreens</span>
+      <nav className="navbar" style={{ display: 'flex', alignItems: 'center', padding: '0.7rem 2vw', background: '#fff', boxShadow: '0 2px 8px #0001', minHeight: 64 }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {/* Creative logo with S & T letters */}
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 44, height: 44, background: 'linear-gradient(135deg, #23b758 60%, #188040 100%)', borderRadius: '50%', boxShadow: '0 2px 8px #23b75822', fontWeight: 900, fontSize: 22, color: '#fff', letterSpacing: '-2px', position: 'relative' }}>
+            <span style={{ fontFamily: 'Montserrat, Arial, sans-serif', fontWeight: 900, fontSize: 22, marginRight: 2 }}>S</span>
+            <span style={{ fontFamily: 'Montserrat, Arial, sans-serif', fontWeight: 900, fontSize: 22, marginLeft: -2 }}>T</span>
+            <span style={{ position: 'absolute', left: 6, top: 6, fontSize: 13, color: '#eafff0', fontWeight: 700, opacity: 0.7 }}>🌱</span>
+          </span>
+          <span className="brand" style={{ fontWeight: 800, fontSize: '1.7rem', color: '#188040', letterSpacing: '0.01em', lineHeight: 1.1 }}>S&amp;T's Hydroponics and Microgreens</span>
+        </span>
+        {/* Category Tabs */}
+        <div style={{ marginLeft: 32, display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+          <a href="/products?category=microgreens" style={{ fontWeight: 600, color: '#23b758', textDecoration: 'none', fontSize: '1.1rem', padding: '0.2rem 0.7rem', borderRadius: 6, transition: 'background 0.2s', background: 'none' }}>Microgreens</a>
+          <a href="/products?category=hydroponics" style={{ fontWeight: 600, color: '#23b758', textDecoration: 'none', fontSize: '1.1rem', padding: '0.2rem 0.7rem', borderRadius: 6, transition: 'background 0.2s', background: 'none' }}>Hydroponics</a>
+          <a href="/products?category=homefoods" style={{ fontWeight: 600, color: '#23b758', textDecoration: 'none', fontSize: '1.1rem', padding: '0.2rem 0.7rem', borderRadius: 6, transition: 'background 0.2s', background: 'none' }}>Home Foods</a>
+        </div>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap', maxWidth: '100vw', marginRight: '2vw' }}>
           {!user ? (
             <>

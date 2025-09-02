@@ -38,7 +38,7 @@ html, body, #root {
   font-family: 'Inter', Arial, sans-serif !important;
   color: #fff !important;
   background: 
-    linear-gradient(rgba(40,80,40,0.5), rgba(200,255,200,0.7)),
+    linear-gradient(rgba(255,255,255,0.92), rgba(200,255,200,0.18)),
     url('./assets/hero-microgreens.jpg') center/cover no-repeat !important;
 }
 

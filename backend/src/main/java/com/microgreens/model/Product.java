@@ -25,7 +25,16 @@ public class Product {
     private String description;
     private String imageUrl;
     private BigDecimal price; // INR
-    private String category; // "microgreens" or "hydroponics"
+    private String category; // "microgreens" or "hydroponics" or "homefoods"
+    @Column(name = "container_quantity")
+    private String containerQuantity; // e.g. "100g", "250ml", "1kg"
+
+    public String getContainerQuantity() {
+        return containerQuantity;
+    }
+    public void setContainerQuantity(String containerQuantity) {
+        this.containerQuantity = containerQuantity;
+    }
 
     // Getters and setters...
     public Long getProductId() {
@@ -71,6 +80,7 @@ public class Product {
                 "product_id=" + product_id +
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
+                ", containerQuantity='" + containerQuantity + '\'' +
                 '}';
     }
 
