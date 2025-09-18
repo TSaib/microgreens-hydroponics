@@ -17,7 +17,7 @@ export default function Login() {
     try {
       const res = await axios.post(`${API_URL}/auth/login`, { email, password });
       if (res.data.success) {
-        login(email, res.data.role);
+        login(email, res.data.role, res.data.token);
         // Navigation will be handled by <Navigate />
       } else {
         setErr(res.data.message);

@@ -13,8 +13,8 @@ export default function AuthProvider({ children }) {
   });
 
   // login function sets user info (now includes email and role)
-  const login = (email, role) => {
-    const userObj = { email, role };
+  const login = (email, role, token) => {
+    const userObj = { email, role, token };
     setUser(userObj);
     localStorage.setItem('user', JSON.stringify(userObj));
   };

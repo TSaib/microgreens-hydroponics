@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -16,9 +17,8 @@ public class OrderController {
     @Autowired private OrderRepository orderRepo;
     @Autowired private UserRepository userRepo;
     @Autowired private ProductRepository productRepo;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
- 
+    //@Autowired private PasswordEncoder passwordEncoder;
+
 
     // @PostMapping
     // public Map<String, Object> placeOrder(@RequestBody Map<String,Object> req) {
@@ -51,26 +51,29 @@ public class OrderController {
     // }
 
     @GetMapping
-    public List<Order> getOrders(@RequestParam String email, @RequestParam String password) {
-        // Basic username/password validation for order access
-        User user = userRepo.findByEmail(email).orElse(null);
-        if (user == null) {
-            System.out.println("User not found for email: " + email);
+    public List<Order> getOrders() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("[OrderController] Authentication: " + authentication);
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
             return Collections.emptyList();
         }
-        if (passwordEncoder.matches(password, user.getPassword())) {
-            // Check user role to determine order visibility
-            System.out.println("role from OrderController.java: " + user.getRole());
-            if (user.getRole().equals("ADMIN")) {
-                System.out.println("Inside ADMIN If block in OrderController.java");
-                return orderRepo.findAll(); // admin sees all orders
-            } else {
-                System.out.println("Inside ADMIN else block in OrderController.java");
-                return orderRepo.findByUser(user); // user sees their own orders
-            }
+        String email = authentication.getName();
+        User user = userRepo.findByEmail(email).orElse(null);
+        System.out.println("[OrderController] User: " + user);
+
+        if (user == null) {
+            System.out.println("[OrderController] Inside user==null: " + user);
+            return Collections.emptyList();
         }
-        // Invalid credentials
-        System.out.println("Invalid password for user: " + email);
-        return Collections.emptyList();
+        if (user.getRole().equals("ADMIN")) {
+            List<Order> allOrders = orderRepo.findAll();
+            System.out.println("[OrderController] ADMIN - Returning all orders. Count: " + allOrders.size());
+            return allOrders;
+        } else {
+            System.out.println("[OrderController] Fetching orders for user_id: " + user.getUserId());
+            List<Order> userOrders = orderRepo.findByUserId(user.getUserId());
+            System.out.println("[OrderController] Orders found for user_id " + user.getUserId() + ": " + userOrders.size());
+            return userOrders;
+        }
     }
 }

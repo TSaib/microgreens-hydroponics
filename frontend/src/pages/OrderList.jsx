@@ -5,22 +5,30 @@ import { AuthContext } from "../context/AuthContext";
 
 export default function OrderList() {
   const { user } = useContext(AuthContext);
-  const [password, setPassword] = useState("");
   const [orders, setOrders] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fetchOrders = async (e) => {
-    e.preventDefault();
+  const fetchOrders = async () => {
     setLoading(true);
     setError("");
     try {
       const res = await axios.get(`${API_URL}/orders`, {
-        params: { email: user.email, password },
+        headers: { Authorization: `Bearer ${user.token}` }
       });
       setOrders(res.data);
     } catch (err) {
-      setError("Failed to fetch orders. Please check your password.");
+      // Enhanced error logging for debugging
+      if (err.response) {
+        setError(`Failed to fetch orders: ${err.response.status} ${err.response.statusText}`);
+        console.error("Order fetch error:", err.response.data);
+      } else if (err.request) {
+        setError("Failed to fetch orders: No response from server.");
+        console.error("Order fetch error: No response", err.request);
+      } else {
+        setError(`Failed to fetch orders: ${err.message}`);
+        console.error("Order fetch error:", err.message);
+      }
       setOrders(null);
     } finally {
       setLoading(false);
@@ -35,23 +43,11 @@ export default function OrderList() {
     <div style={{ padding: 32, maxWidth: 800, margin: '0 auto' }}>
       <h2>Your Orders</h2>
       {!orders && (
-        <form onSubmit={fetchOrders} style={{ marginTop: 32 }}>
-          <label style={{ fontWeight: 600, color: '#188040' }}>
-            Enter your password to view orders:
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              style={{ marginLeft: 12, padding: 8, borderRadius: 6, border: '1px solid #23b758' }}
-            />
-          </label>
-          <button type="submit" style={{ marginLeft: 16, background: '#23b758', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 18px', fontWeight: 600, cursor: 'pointer' }}>
-            View Orders
-          </button>
-          {error && <div style={{ color: 'red', marginTop: 12 }}>{error}</div>}
-        </form>
+        <button onClick={fetchOrders} style={{ marginTop: 32, background: '#23b758', color: '#fff', border: 'none', borderRadius: 6, padding: '12px 28px', fontWeight: 600, fontSize: '1.1rem', cursor: 'pointer' }}>
+          View Orders
+        </button>
       )}
+      {error && <div style={{ color: 'red', marginTop: 12 }}>{error}</div>}
       {loading && <div style={{ marginTop: 32 }}>Loading orders...</div>}
       {orders && Array.isArray(orders) && orders.length === 0 && (
         <div style={{ color: '#888', fontSize: '1.1rem', marginTop: 32 }}>No orders found.</div>

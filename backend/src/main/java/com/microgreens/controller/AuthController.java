@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Optional;
+import com.microgreens.security.JwtUtil;
+   
 
 @RestController
 @RequestMapping("/api/auth")
@@ -17,6 +19,8 @@ public class AuthController {
     private UserRepository userRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public Map<String, Object> register(@RequestBody Map<String, String> req) {
@@ -42,7 +46,8 @@ public class AuthController {
             return Map.of("success", false, "message", "Invalid credentials");
         }
         User user = userOpt.get();
-        return Map.of("success", true, "role", user.getRole());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
+        return Map.of("success", true, "role", user.getRole(), "token", token);
     }
 
      @PostMapping("/forgot-password")
