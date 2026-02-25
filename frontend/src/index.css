@@ -36,10 +36,8 @@ html, body, #root {
   margin: 0 !important;
   padding: 0 !important;
   font-family: 'Inter', Arial, sans-serif !important;
-  color: #fff !important;
-  background: 
-    linear-gradient(rgba(255,255,255,0.92), rgba(200,255,200,0.18)),
-    url('./assets/hero-microgreens.jpg') center/cover no-repeat !important;
+  color: #222 !important;
+  background: #ffffff !important;
 }
 
 /* Remove global button color override to allow category button styles to work */

@@ -4,9 +4,10 @@ import axios from 'axios';
 import { API_URL } from '../config';
 
 const categories = [
-  { key: 'microgreens', label: 'Microgreens' },
+  { key: 'harvests', label: 'Harvests' },
+  { key: 'homefoods', label: 'Home Foods' },
   { key: 'hydroponics', label: 'Hydroponics' },
-  { key: 'homefoods', label: 'Home Foods' }
+  { key: 'microgreens', label: 'Microgreens' }
 ];
 
 export default function Products({ addToCart }) {
@@ -14,7 +15,7 @@ export default function Products({ addToCart }) {
   const [products, setProducts] = useState([]);
   // Detect category from query param if present
   const urlParams = new URLSearchParams(window.location.search);
-  const initialCat = urlParams.get('category') || 'microgreens';
+  const initialCat = urlParams.get('category') || 'harvests';
   const [cat, setCat] = useState(initialCat);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -36,6 +37,36 @@ export default function Products({ addToCart }) {
 
   return (
     <div className="main-content" style={{ background: 'transparent', padding: '0 0 2rem 0' }}>
+      {/* Navigation Breadcrumb */}
+      <div style={{ 
+        padding: '1rem 2rem 0 2rem', 
+        maxWidth: '1200px', 
+        margin: '0 auto' 
+      }}>
+        <button
+          onClick={() => navigate('/')}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#23b758',
+            fontSize: '1rem',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 500,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.5rem 0',
+            textDecoration: 'none',
+            transition: 'color 0.3s ease'
+          }}
+          onMouseEnter={(e) => e.target.style.color = '#188040'}
+          onMouseLeave={(e) => e.target.style.color = '#23b758'}
+        >
+          <span style={{ fontSize: '1.2rem' }}>←</span> Back to Home
+        </button>
+      </div>
+      
       <header style={{ textAlign: 'center', margin: '2rem 0 1.5rem 0' }}>
         <h1 style={{ color: '#188040', fontWeight: 800, fontSize: '2.5rem', marginBottom: '0.5rem' }}>Our Fresh Products</h1>
         <p style={{ color: '#333', fontSize: '1.2rem', margin: 0 }}>Carefully grown microgreens and hydroponic varieties harvested at peak nutrition for maximum flavor and health benefits.</p>
